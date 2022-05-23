@@ -1,4 +1,5 @@
-covid = '''1 attaaaggtt tataccttcc caggtaacaa accaaccaac tttcgatctc ttgtagatct
+#added extra a at the end to make it work
+dna = '''1 attaaaggtt tataccttcc caggtaacaa accaaccaac tttcgatctc ttgtagatct
        61 gttctctaaa cgaactttaa aatctgtgtg gctgtcactc ggctgcatgc ttagtgcact
       121 cacgcagtat aattaataac taattactgt cgttgacagg acacgagtaa ctcgtctatc
       181 ttctgcaggc tgcttacggt ttcgtccgtg ttgcagccga tcatcagcac atctaggttt
@@ -496,44 +497,44 @@ covid = '''1 attaaaggtt tataccttcc caggtaacaa accaaccaac tttcgatctc ttgtagatct
     29701 gggaggactt gaaagagcca ccacattttc accgaggcca cgcggagtac gatcgagtgt
     29761 acagtgaaca atgctaggga gagctgccta tatggaagag ccctaatgtg taaaattaat
     29821 tttagtagtg ctatccccat gtgattttaa tagcttctta ggagaatgac aaaaaaaaaa
-    29881 aaaaaaaaaa aaaaaaaaaa aaa'''
+    29881 aaaaaaaaaa aaaaaaaaaa aaaa'''
 
-spike = '''MFVFLVLLPLVSSQCVNLTTRTQLPPAYTNSFTRGVYYPDKVFR
-           SSVLHSTQDLFLPFFSNVTWFHAIHVSGTNGTKRFDNPVLPFNDGVYFASTEKSNIIR
-           GWIFGTTLDSKTQSLLIVNNATNVVIKVCEFQFCNDPFLGVYYHKNNKSWMESEFRVY
-           SSANNCTFEYVSQPFLMDLEGKQGNFKNLREFVFKNIDGYFKIYSKHTPINLVRDLPQ
-           GFSALEPLVDLPIGINITRFQTLLALHRSYLTPGDSSSGWTAGAAAYYVGYLQPRTFL
-           LKYNENGTITDAVDCALDPLSETKCTLKSFTVEKGIYQTSNFRVQPTESIVRFPNITN
-           LCPFGEVFNATRFASVYAWNRKRISNCVADYSVLYNSASFSTFKCYGVSPTKLNDLCF
-           TNVYADSFVIRGDEVRQIAPGQTGKIADYNYKLPDDFTGCVIAWNSNNLDSKVGGNYN
-           YLYRLFRKSNLKPFERDISTEIYQAGSTPCNGVEGFNCYFPLQSYGFQPTNGVGYQPY
-           RVVVLSFELLHAPATVCGPKKSTNLVKNKCVNFNFNGLTGTGVLTESNKKFLPFQQFG
-           RDIADTTDAVRDPQTLEILDITPCSFGGVSVITPGTNTSNQVAVLYQDVNCTEVPVAI
-           HADQLTPTWRVYSTGSNVFQTRAGCLIGAEHVNNSYECDIPIGAGICASYQTQTNSPR
-           RARSVASQSIIAYTMSLGAENSVAYSNNSIAIPTNFTISVTTEILPVSMTKTSVDCTM
-           YICGDSTECSNLLLQYGSFCTQLNRALTGIAVEQDKNTQEVFAQVKQIYKTPPIKDFG
-           GFNFSQILPDPSKPSKRSFIEDLLFNKVTLADAGFIKQYGDCLGDIAARDLICAQKFN
-           GLTVLPPLLTDEMIAQYTSALLAGTITSGWTFGAGAALQIPFAMQMAYRFNGIGVTQN
-           VLYENQKLIANQFNSAIGKIQDSLSSTASALGKLQDVVNQNAQALNTLVKQLSSNFGA
-           ISSVLNDILSRLDKVEAEVQIDRLITGRLQSLQTYVTQQLIRAAEIRASANLAATKMS
-           ECVLGQSKRVDFCGKGYHLMSFPQSAPHGVVFLHVTYVPAQEKNFTTAPAICHDGKAH
-           FPREGVFVSNGTHWFVTQRNFYEPQIITTDNTFVSGNCDVVIGIVNNTVYDPLQPELD
-           SFKEELDKYFKNHTSPDVDLGDISGINASVVNIQKEIDRLNEVAKNLNESLIDLQELG
-           KYEQYIKWPWYIWLGFIAGLIAIVMVTIMLCCMTSCCSCLKGCCSCGSCCKFDEDDSE
-           PVLKGVKLHYT'''
+RNA_Codons = {
+    # 'M' - START, '*' - STOP
+    "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
+    "UGU": "C", "UGC": "C",
+    "GAU": "D", "GAC": "D",
+    "GAA": "E", "GAG": "E",
+    "UUU": "F", "UUC": "F",
+    "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G",
+    "CAU": "H", "CAC": "H",
+    "AUA": "I", "AUU": "I", "AUC": "I",
+    "AAA": "K", "AAG": "K",
+    "UUA": "L", "UUG": "L", "CUU": "L", "CUC": "L", "CUA": "L", "CUG": "L",
+    "AUG": "M",
+    "AAU": "N", "AAC": "N",
+    "CCU": "P", "CCC": "P", "CCA": "P", "CCG": "P",
+    "CAA": "Q", "CAG": "Q",
+    "CGU": "R", "CGC": "R", "CGA": "R", "CGG": "R", "AGA": "R", "AGG": "R",
+    "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S", "AGU": "S", "AGC": "S",
+    "ACU": "T", "ACC": "T", "ACA": "T", "ACG": "T",
+    "GUU": "V", "GUC": "V", "GUA": "V", "GUG": "V",
+    "UGG": "W",
+    "UAU": "Y", "UAC": "Y",
+    "UAA": "*", "UAG": "*", "UGA": "*"
+}
 
 for s in " \n1234567890":
-  covid = covid.replace(s, "")
+  dna = dna.replace(s, "")
   
-transcribe = covid.maketrans("atgc", "uacg")
-transcript = covid.translate(transcribe)
+rna_map = dna.maketrans("atgc", "uacg")
+rna = dna.translate(rna_map).upper()
 
-print("DNA = " + covid)
-print("RNA = " + transcript)
+print("DNA = " + dna)
+print("RNA = " + rna)
 
-stop = 'uaa'
-
-for stop in transcript:
-  transcript.replace(stop, "#")
-
-print(transcript)
+protein = ""
+for i in range(0, len(rna), 3):
+  codon = rna[i:i+3]
+  protein += RNA_Codons[codon]
+print(protein)
